@@ -10,7 +10,8 @@ const People = [
   { name: "Chaitanya", favoriteFood: "Pizza", favoriteColor: "blue" },
   {name: "Thousif", favoriteFood: "Shawarma", favoriteColor: "green" },
   { name: "Nithin", favoriteFood: "Burger", favoriteColor: "black"},
-  {name: "Pavan", favoriteFood:"Samosa", favoriteColor: "brown"}
+  {name: "Pavan", favoriteFood:"Samosa", favoriteColor: "brown"},
+  { name: "Bharat", favouriteFood: "Dosa", favoriteColor: "green"}
 ];
 //creating an array people with objects name, favoritefood, favoritecolor
 
