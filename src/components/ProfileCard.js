@@ -10,10 +10,10 @@ const ProfileCard = ({ name, favoriteFood, favoriteColor }) => {
   return (
     <Card
       style={{
-        width: "18rem",
+        width: "20rem",
         margin: "10px", // Adding space around the card
         border: "2px solid ${favoriteColor}", // Using favoriteColor as the border color
-        borderRadius: "10px",
+        borderRadius: "20px",
         backgroundColor: "#f8f9fa",
         fontFamily: "Arial, sans-serif" // Applying the font
       }}
