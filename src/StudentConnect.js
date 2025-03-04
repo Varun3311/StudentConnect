@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Container, Row, Col, Form, Button, Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ProfileCard from "./components/ProfileCard";
-import { useReactTable, getCoreRowModel } from '@tanstack/react-table';
 
 const StudentConnect = () => {
   const [profiles, setProfiles] = useState([
@@ -13,6 +12,8 @@ const StudentConnect = () => {
   ]);
 
   const [newProfile, setNewProfile] = useState({ name: "", favoriteFood: "", favoriteColor: "" });
+  const [editingId, setEditingId] = useState(null);
+  const [editedProfile, setEditedProfile] = useState({ name: "", favoriteFood: "", favoriteColor: "" });
 
   const handleAddProfile = () => {
     if (!newProfile.name || !newProfile.favoriteFood || !newProfile.favoriteColor) return;
@@ -28,6 +29,18 @@ const StudentConnect = () => {
     setProfiles(profiles.map(profile =>
       profile.id === id ? { ...profile, likes: profile.likes + 1 } : profile
     ));
+  };
+
+  const handleEditProfile = (profile) => {
+    setEditingId(profile.id);
+    setEditedProfile(profile);
+  };
+
+  const handleSaveEdit = () => {
+    setProfiles(profiles.map(profile =>
+      profile.id === editingId ? editedProfile : profile
+    ));
+    setEditingId(null);
   };
 
   return (
@@ -68,11 +81,28 @@ const StudentConnect = () => {
         <tbody>
           {profiles.map(profile => (
             <tr key={profile.id}>
-              <td>{profile.name}</td>
-              <td>{profile.favoriteFood}</td>
-              <td>{profile.favoriteColor}</td>
-              <td>{profile.likes}</td>
-              <td><Button variant="danger" size="sm" onClick={() => handleDeleteProfile(profile.id)}>Delete</Button></td>
+              {editingId === profile.id ? (
+                <>
+                  <td><Form.Control value={editedProfile.name} onChange={(e) => setEditedProfile({ ...editedProfile, name: e.target.value })} /></td>
+                  <td><Form.Control value={editedProfile.favoriteFood} onChange={(e) => setEditedProfile({ ...editedProfile, favoriteFood: e.target.value })} /></td>
+                  <td><Form.Control value={editedProfile.favoriteColor} onChange={(e) => setEditedProfile({ ...editedProfile, favoriteColor: e.target.value })} /></td>
+                  <td>{profile.likes}</td>
+                  <td>
+                    <Button variant="success" size="sm" onClick={handleSaveEdit}>Save</Button>
+                  </td>
+                </>
+              ) : (
+                <>
+                  <td>{profile.name}</td>
+                  <td>{profile.favoriteFood}</td>
+                  <td>{profile.favoriteColor}</td>
+                  <td>{profile.likes}</td>
+                  <td>
+                    <Button variant="warning" size="sm" onClick={() => handleEditProfile(profile)}>Edit</Button>{' '}
+                    <Button variant="danger" size="sm" onClick={() => handleDeleteProfile(profile.id)}>Delete</Button>
+                  </td>
+                </>
+              )}
             </tr>
           ))}
         </tbody>
